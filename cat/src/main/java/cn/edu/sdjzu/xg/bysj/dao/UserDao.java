@@ -142,8 +142,8 @@ public final class UserDao {
 		JdbcHelper.close(resultSet,preparedStatement,connection);
 		return desiredUser;
 	}
-	public Collection<User> findByUsername(String username) throws SQLException{
-		users = new TreeSet<>();
+	public User findByUsername(String username) throws SQLException{
+		User users = null;
 		Connection connection = JdbcHelper.getConn();
 		//根据连接对象准备语句对象，如果sql语句为多行，注意语句不同部分之间要有空格
 		PreparedStatement preparedStatement = connection.prepareStatement(
@@ -156,7 +156,7 @@ public final class UserDao {
 		//若结果集中没有记录，则本方法返回null
 		if (resultSet.next()){
 			Teacher teacher = TeacherDao.getInstance().find(resultSet.getInt("teacher_id"));
-			users.add(new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getDate("logintime"),teacher));
+			users=new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getDate("logintime"),teacher);
 		}
 		//关闭资源
 		JdbcHelper.close(resultSet,preparedStatement,connection);
