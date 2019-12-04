@@ -1,0 +1,18 @@
+git config --global user.email "m19862100530@163.com"
+git config --global user.name "wangxuehui43"
+mkdir newrsp//创建仓库
+cd newrsp//进入
+git status//查看仓库状态
+git init//初始化，把这个目录变成git可以管理的目录
+ls -ah
+git status
+git add readme.md//先添加
+git commit -m "first commit"//在提交
+git status//查看提交后的状态
+git diff readme.md//查看不同
+修改文件后添加提交
+git log//查看全部修改
+git remote add origin git@github.com:m19862100530/learnrep.git//把仓库添加到远程
+git push -u origin master//从本地推送到远程
+got clone git@github.com:m19862100530/learnrep.git//克隆到本地
+git push origin master//修改本地后直接推送

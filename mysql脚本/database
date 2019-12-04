@@ -1,0 +1,57 @@
+create table degree(
+id bigint not null auto_increment,
+no varchar(255)not null,
+description varchar(255)not null,
+remarks varchar(255),
+primary key(id));
+insert into degree(description,no,remarks) values("","","")
+
+create table proftitle(
+id bigint not null auto_increment,
+no varchar(255)not null,
+description varchar(255)not null,
+remarks varchar(255),
+primary key(id));
+insert into profTitle(description,no,remarks) values("","","")
+
+create table school(
+id bigint not null auto_increment,
+no varchar(255)not null,
+description varchar(255)not null,
+remarks varchar(255),
+primary key(id));
+insert into school(description,no,remarks) values("","","")
+
+create table teacher(
+id bigint not null auto_increment,
+no varchar(255)not null,
+name varchar(255)not null,
+profTitle_id bigint not null,
+degree_id bigint not null,
+department_id bigint not null,
+foreign key(profTitle_id) references profTitle(id),
+foreign key(department_id) references department(id),
+foreign key(degree_id) references degree(id),
+primary key(id));
+insert into teacher(no,name,profTitle_id,degree_id,department_id) values("",1,1,1)
+
+create table department(
+id bigint not null auto_increment,
+no varchar(255)not null,
+description varchar(255)not null,
+remarks varchar(255)not null,
+school_id bigint not null,
+foreign key(school_id) references school(id),
+primary key(id));
+insert into department(no,description,remarks,school_id) values("","","",1)
+
+
+create table user(
+id bigint not null auto_increment,
+username varchar(255) not null,
+password varchar(255) not null,
+logintime date not null,
+teacher_id bigint not null,
+foreign key(teacher_id) references teacher(id),
+primary key(id));
+ALTER TABLE user ADD unique(username)
