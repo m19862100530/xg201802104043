@@ -69,7 +69,7 @@ public final class UserService {
         }
         return desiredUser;
     }
-    public Collection<User> findByUsername(String username) throws SQLException {
+    public User findByUsername(String username) throws SQLException {
         return userDao.findByUsername(username);
     }
     public boolean change(User user) throws SQLException{
