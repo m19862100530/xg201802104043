@@ -25,31 +25,29 @@ public class UserController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         //读取参数id
         String id_str = request.getParameter("id");
-        String username_str = request.getParameter("username");
-
-
+        String username = request.getParameter("username");
         //创建JSON对象message，以便往前端响应信息
         JSONObject message = new JSONObject();
         try {
-                //如果id = null, 表示响应所有user对象，否则响应id指定的user对象
-                if (id_str == null) {
-                    responseUsers(response);
-                }else{
-                    int id = Integer.parseInt(id_str);
-                    responseUser(id, response);
-                }
-        }catch (SQLException e){
+            //如果id值不为空，调用根据id值响应一个用户对象方法，否则，调用根据用户名响应一个用户对象的方法
+            if (id_str != null){
+                //强制类型转换成int型
+                int id = Integer.parseInt(id_str);
+                this.responseUser(id,response);
+            }else if (username != null){
+                this.responseUserByUsername(username,response);
+            }else{
+                responseUsers(response);
+            }
+        } catch (SQLException e) {
             message.put("message", "数据库操作异常");
-            //响应message到前端
-            response.getWriter().println(message);
             e.printStackTrace();
-        }catch(Exception e){
+        } catch (Exception e) {
             message.put("message", "网络异常");
             e.printStackTrace();
-            //响应message到前端
-            response.getWriter().println(message);
         }
-        //response.getWriter().println(message);
+        //响应message到前端
+        response.getWriter().println(message);
     }
 
     @Override
@@ -108,9 +106,9 @@ public class UserController extends HttpServlet {
     private void responseUserByUsername(String username, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         //根据school的USERNAME查找所属的系
-        Collection<User> users = UserService.getInstance().findByUsername(username);
+        User users = UserService.getInstance().findByUsername(username);
         //将对象转为json字符串
-        String user_json = JSON.toJSONString(users, SerializerFeature.DisableCircularReferenceDetect);
+        String user_json = JSON.toJSONString(users);
         //响应message到前端
         response.getWriter().println(user_json);
     }
